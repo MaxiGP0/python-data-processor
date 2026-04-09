@@ -97,6 +97,45 @@ def buscar_alumno(alumnos):
     else:
         print("No se encontro ningun alumno con ese ID.")
 
+# ----------------------------------------------------------------------------------------------------------------------------
+# Funciones nuevas (falta comentar).
+def eliminar_alumno(alumnos):
+    
+    print("\n--- Eliminar Alumno ---")
+    id_borrar = input("Ingrese el ID del alumno a eliminar: ")
+    
+    if id_borrar in alumnos:
+        nombre_borrado = alumnos[id_borrar]['nombre']
+        # La palabra clave 'del' borra la clave y su valor del diccionario instantáneamente
+        del alumnos[id_borrar]
+        print(f"¡El alumno {nombre_borrado} (ID: {id_borrar}) fue eliminado correctamente!")
+    else:
+        print("No se encontro ningun alumno con ese ID.")
+
+def generar_reporte(alumnos):
+    """Analiza los datos en memoria y devuelve estadísticas básicas."""
+    print("\n--- Reporte Estadistico ---")
+    
+    total_alumnos = len(alumnos)
+    
+    if total_alumnos == 0:
+        print("No hay datos para analizar.")
+        return
+
+    # Contamos cuántos están activos (pasamos a minúsculas por si el usuario tipeó distinto)
+    activos = sum(1 for info in alumnos.values() if info['estado'].strip().lower() == 'activo')
+    inactivos = total_alumnos - activos
+    
+    # Calculamos el promedio de edad asegurándonos de que la edad sea un número
+    edades = [int(info['edad']) for info in alumnos.values() if info['edad'].isdigit()]
+    promedio_edad = sum(edades) / len(edades) if edades else 0
+
+    print(f"Total de registros: {total_alumnos}")
+    print(f"Alumnos Activos: {activos}")
+    print(f"Alumnos Inactivos: {inactivos}")
+    print(f"Edad promedio: {promedio_edad:.1f} años")
+    print("---------------------------")
+# ----------------------------------------------------------------------------------------------------------------------------
 
 # Main del programa.
 def main():
@@ -113,6 +152,8 @@ def main():
         print("1. Agregar un registro")
         print("2. Buscar un registro")
         print("3. Guardar y Salir")
+        print("3. Eliminar un alumno")
+        print("4. Generar reporte estadístico")
         
         opcion = input("Elige una opción (1-3): ")
         
