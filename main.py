@@ -55,7 +55,7 @@ def guardar_datos(alumnos):
             linea = f"{id_alumno},{info['nombre']},{info['edad']},{info['estado']}\n"
             archivo.write(linea)
             
-# agregar_alumno: Dict -> Dict
+# agregar_alumno: Dict -> void
 # agregar_alumno, toma un diccionario de alumnos, y agrega uno a al diccionario.
 def agregar_alumno(alumnos):
 
@@ -65,7 +65,7 @@ def agregar_alumno(alumnos):
 
     # Comprobamos su existencia.
     if id_alumno in alumnos:
-        print("¡Error! Ese ID ya existe.")
+        print("Error. Ese ID ya existe.")
         return
 
     # Solicitamos al usuario todos los datos del alumno.
@@ -75,14 +75,18 @@ def agregar_alumno(alumnos):
 
     # Lo guardamos en el diccionario.
     alumnos[id_alumno] = {'nombre': nombre, 'edad': edad, 'estado': estado}
-    print(f"¡Alumno {nombre} agregado con éxito!")
+    print(f"Alumno {nombre} agregado con exito.")
     
 
+# buscar_alumno: Dict -> void
+# buscar_alumno, recibe un diccionario de alumnos, e imprime por pantalla los datos de un alumno solicitado.
 def buscar_alumno(alumnos):
-    """Busca un alumno por su ID en el diccionario (búsqueda instantánea)."""
+
+    # Le solicitamos al usuario el ID del alumno.
     print("\n--- Buscar Alumno ---")
     id_buscado = input("Ingrese el ID del alumno a buscar: ")
-    
+
+    # Comprobamos si el ID esta registrado, en ese caso, imprime en pantalla los resultados.
     if id_buscado in alumnos:
         info = alumnos[id_buscado]
         print("\n--- Resultados ---")
@@ -91,20 +95,26 @@ def buscar_alumno(alumnos):
         print(f"Estado: {info['estado']}")
         print("------------------")
     else:
-        print("No se encontró ningún alumno con ese ID.")
+        print("No se encontro ningun alumno con ese ID.")
 
-def menu_principal():
-    """Maneja la interfaz de consola del programa."""
-    # Cargamos los datos a la memoria RAM apenas arranca el programa
+
+# Main del programa.
+def main():
+    
+    # Cargamos los datos a la memoria RAM apenas arranca el programa.
     base_de_datos = cargar_datos()
     
     while True:
-        print("\n=== SISTEMA DE GESTIÓN DE ALUMNOS ===")
+
+        # Imprimimos en pantalla las posibles acciones.
+        # Guardamos la opcion temporalmente, y hacemos lo solicitado.
+        
+        print("\n=== SISTEMA DE GESTION DE ALUMNOS ===")
         print("1. Agregar un registro")
         print("2. Buscar un registro")
         print("3. Guardar y Salir")
         
-        opcion = input("Elegí una opción (1-3): ")
+        opcion = input("Elige una opción (1-3): ")
         
         if opcion == '1':
             agregar_alumno(base_de_datos)
@@ -112,11 +122,11 @@ def menu_principal():
             buscar_alumno(base_de_datos)
         elif opcion == '3':
             guardar_datos(base_de_datos)
-            print("Datos guardados. ¡Hasta luego!")
+            print("Datos guardados correctamente.")
             break
         else:
-            print("Opción no válida. Intentá de nuevo.")
+            print("Opcion no válida.")
 
 # Punto de entrada del script
 if __name__ == "__main__":
-    menu_principal()
+    main()
