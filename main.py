@@ -97,45 +97,54 @@ def buscar_alumno(alumnos):
     else:
         print("No se encontro ningun alumno con ese ID.")
 
-# ----------------------------------------------------------------------------------------------------------------------------
-# Funciones nuevas (falta comentar).
+
+# eliminar_alumno: Dict -> void
+# eliminar_alumno, ingresando una estructura de alumnos, le solicita al usuario el ID del alumno, y lo elimina de la estructura.
 def eliminar_alumno(alumnos):
-    
+
+    # Le solicitamos al usuario el ID del alumno.
     print("\n--- Eliminar Alumno ---")
     id_borrar = input("Ingrese el ID del alumno a eliminar: ")
-    
+
+    # Borramos al alumno en caso de que exista el ID solicitado.
     if id_borrar in alumnos:
         nombre_borrado = alumnos[id_borrar]['nombre']
-        # La palabra clave 'del' borra la clave y su valor del diccionario instantáneamente
         del alumnos[id_borrar]
         print(f"¡El alumno {nombre_borrado} (ID: {id_borrar}) fue eliminado correctamente!")
     else:
         print("No se encontro ningun alumno con ese ID.")
 
+
+
+# generar_reporte: Dict -> void
+# generar_reporte, recibe un diccionario de alumnos, Analiza los datos en memoria e imprime las estadísticas básicas.
 def generar_reporte(alumnos):
-    """Analiza los datos en memoria y devuelve estadísticas básicas."""
-    print("\n--- Reporte Estadistico ---")
+
     
+    print("\n--- Reporte Estadistico ---") 
+
+    # Comprobamos que haya alumnos en el diccionario.
     total_alumnos = len(alumnos)
-    
     if total_alumnos == 0:
         print("No hay datos para analizar.")
         return
 
-    # Contamos cuántos están activos (pasamos a minúsculas por si el usuario tipeó distinto)
+    # Contamos cuantos estan activos (pasamos a minusculas por si el usuario tipeo distinto)
     activos = sum(1 for info in alumnos.values() if info['estado'].strip().lower() == 'activo')
     inactivos = total_alumnos - activos
     
-    # Calculamos el promedio de edad asegurándonos de que la edad sea un número
+    # Calculamos el promedio de edad asegurandonos de que la edad sea un numero.
     edades = [int(info['edad']) for info in alumnos.values() if info['edad'].isdigit()]
     promedio_edad = sum(edades) / len(edades) if edades else 0
 
+    # Imprimimos en pantalla el reporte.
     print(f"Total de registros: {total_alumnos}")
     print(f"Alumnos Activos: {activos}")
     print(f"Alumnos Inactivos: {inactivos}")
     print(f"Edad promedio: {promedio_edad:.1f} años")
     print("---------------------------")
-# ----------------------------------------------------------------------------------------------------------------------------
+
+
 
 # Main del programa.
 def main():
@@ -147,24 +156,34 @@ def main():
 
         # Imprimimos en pantalla las posibles acciones.
         # Guardamos la opcion temporalmente, y hacemos lo solicitado.
-        
+
         print("\n=== SISTEMA DE GESTION DE ALUMNOS ===")
-        print("1. Agregar un registro")
-        print("2. Buscar un registro")
-        print("3. Guardar y Salir")
+        print("1. Agregar un alumno")
+        print("2. Buscar un alumno")
         print("3. Eliminar un alumno")
         print("4. Generar reporte estadístico")
-        
-        opcion = input("Elige una opción (1-3): ")
+        print("5. Guardar y Salir")
+
+        # Le solicitamos al usario la actividad ha realizar y actuamos en consecuencia.
+        opcion = input("Elige una opción (1-5): ")
         
         if opcion == '1':
             agregar_alumno(base_de_datos)
+            
         elif opcion == '2':
             buscar_alumno(base_de_datos)
+            
         elif opcion == '3':
+            eliminar_alumno(base_de_datos)
+
+        elif opcion == '4':
+            generar_reporte(base_de_datos)
+        
+        elif opcion == '5':
             guardar_datos(base_de_datos)
             print("Datos guardados correctamente.")
             break
+        
         else:
             print("Opcion no válida.")
 
